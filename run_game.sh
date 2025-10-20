@@ -1,10 +1,10 @@
 #!/bin/bash
 
-SCRIPT_DIR = "$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Emelie Jonsson"
-mkdir -p "$SCRIPT_DIR/ Emelie_Jonsson_labb"
-cp "$SCRIPT_DIR/guessingGame/"*.java "$SCRIPT_DIR/Emelie_Jonsson_labb"
+mkdir -p "$SCRIPT_DIR/Emelie_Jonsson_labb"
+cp "$SCRIPT_DIR/"*.java "$SCRIPT_DIR/Emelie_Jonsson_labb"
 cd "$SCRIPT_DIR/Emelie_Jonsson_labb"
 pwd
 echo "compiling..."

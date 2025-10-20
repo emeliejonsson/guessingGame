@@ -1,11 +1,14 @@
 #!/bin/bash
 
+SCRIPT_DIR = "$(cd "$(dirname "$0")" && pwd)"
+
 echo "Emelie Jonsson"
-mkdir -p "Emelie_Jonsson_labb"
-cp ~/guessingGame/*.java Emelie_Jonsson_labb
-cd Emelie_Jonsson_labb
+mkdir -p "$SCRIPT_DIR/ Emelie_Jonsson_labb"
+cp "$SCRIPT_DIR/guessingGame/"*.java "$SCRIPT_DIR/Emelie_Jonsson_labb"
+cd "$SCRIPT_DIR/Emelie_Jonsson_labb"
 pwd
 echo "compiling..."
 javac *.java
 echo "running..."
 java GuessingGame
+echo "Done!"

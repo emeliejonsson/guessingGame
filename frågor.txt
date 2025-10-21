@@ -1,0 +1,104 @@
+Frågor.txt
+
+VAD ÄR PULL RESPEKTIVE PUSH?
+Push används för att ladda upp de ändringar man har committat i sitt lokala repository till sitt fjärr-repository. Om man inte pushar sina ändringar så finns de bara lokalt på datorn.
+
+Pull används för att hämta ändringar från fjärr-repository. Då uppdateras ditt lokala repository med ändringar som pushats till servern av andra. För att kunna uppdatera branchen du arbetar på behöver du efter git pull använda git merge och eventuellt lösa konflikter mellan din lokala kod och koden du hämtat från fjärr-repositoryt.
+
+
+NÄR ANVÄNDER MAN LOG RESPEKTIVE STATUS:
+Git status används när du vill se status för ditt arbete helt enkelt - vad som kommer hända, git status visar vilken branch du befinner dig i, om det finns något att committa och vilka filer som ändrats men ännu inte addats till staging area.
+
+Git log används för att kontrollera ändringar då visar vad som har hänt i branchen du befinner dig i. Den visar commits i omvänd kronologisk ordning. Varje commit har ett commit-meddelande samt info om vem som committat och när.
+
+VAD ÄR EN GIT BRANCH OCH VARFÖR ÄR DE VIKTIGA?
+Git branches är separata grenar av ett projekt. Med branches kan du arbeta med mindre delar av ett program utan att påverka och riskera att störa main-branchen där ens huvudsakliga kod finns. Branches är även viktiga för samarbete, då flera personer kan arbeta med olika delar på olika branches samtidigt. Detta påverkar även säkerheten, ifall det uppstår ett fel i en branch så påverkas inte andra branches eller main-branchen av det.
+
+RESTORE, RESET OCH REVERT
+GIT RESTORE
+Används för att ta bort ändringar utan att ändra commit-historiken. Påverkar endast working directory, dvs dina lokala filer. Bra användningsområde är för att återställa filer till senaste versionen.
+
+EXEMPEL GIT RESTORE:
+Skapar en fil: echo "Hej hallå" > hej.txt
+Stagear filen: git add hej.txt 
+Ändrar filen utan commita: echo "Tja" >> hej.txt
+Återställer filen: git restore hej.txt
+Committar filen: git commit hej.txt
+
+OUTPUT: hej.txt återställs till den ursprungliga versionen - det vill säga utan raden "Tja" och git status visar inga ändringar.  
+
+GIT RESET
+Används för att backa till ett tidigare tillstånd genom att flytta HEAD. Git reset förändrar historiken lokalt och tar bort commit. Finns tre olika typer av reset: soft, mixed och hard. Git 
+
+git reset --soft gör att HEAD flyttas bakåt, men filerna och staging ändras inte. Bra användningsområde är för att rätta till en felaktig commit.
+
+git reset --mixed för att HEAD flyttas bakåt och staging töms, men filerna i arbetskatalogen ändras inte. Bra att använda om man råkar committa fel fil.
+
+git reset --hard gör att HEAD flyttas bakåt, staging och arbetskatalog återställs och ändringarna som inte committats försvinner helt. Det är viktigt att vara försiktig om man ska använda git reset hard, särskilt i delade repositorys.
+
+EXEMPEL GIT RESET
+(nedan har jag skapat tre commits att testa med)
+
+mkdir git-reset-tester
+cd git-reset-tester
+git init
+
+echo "rad 1" > fil.txt
+git add fil.txt
+git commit -m "Commit 1"
+
+echo "rad 2" >> fil.txt
+git add fil.txt
+git commit -m "Commit 2"
+
+echo "rad 3" >> fil.txt
+git add fil.txt
+git commit -m "Commit 3"
+
+RESET SOFT
+git reset --soft HEAD~1 flyttar HEAD tillbaka en commit.
+OUTPUT:
+git log kommer nu bara visa två commits, Commit 1 och Commit 2.
+cat fil.txt visar att fil.txt fortfarande innehåller alla rader (1, 2 och 3).
+git status visar att ändringarna från Commit 3 är stageade och redo att ändras.
+
+Det som hänt är att vi backat från commit 3 men ändringarna från commit 3 ligger redo i staging. Vi kan alltså enkelt här rätta en felaktig commit utan att påverka arbetskatalogen.
+
+GÅ TILLBAKA TILL COMMIT 3
+git reset --hard HEAD@{1} 
+
+RESET MIXED
+git reset --mixed HEAD~1 flyttar HEAD tillbaka en commit.
+OUTPUT:
+git log kommer visa två commits, Commit 1 och Commit 2.
+git status kommer visa att Commit 3 ändrats men inte stageats.
+cat fil.txt kommer visa att fil.txt fortfarande innehåller alla rader (1, 2 och 3).
+
+Likt reset soft så har vi backat från commit 3 men till skillnad från soft så finns här ändringarna kvar som unstagead istället för staged.
+
+GÅ TILLBAKA TILL COMMIT 3
+git reset --hard HEAD@{1} 
+
+RESET HARD
+git reset --hard HEAD~1 flyttar HEAD tillbaka en commit.
+OUTPUT:
+git log kommer ni bara visa två commits, Commit 1 och Commit 2.
+git status visar inga ändringar, reset hard tömmer staging helt.
+cat fil.txt visar att filen nu bara innehåller raderna från Commit 1 och Commit 2.
+
+Det som hänt är att man ångrat Commit 3 helt och hållet, samt tagit bort ändringarna i arbetskatalogen. 
+
+
+GIT REVERT
+git revert skapar en ny commit som ångrar en tidigare commit. Till skillnad från git reset så tar revert inte bort historik utan lägger till en commit som gör tvärtom, det vill säga att den inverterar. Detta gör att den är säker att använda, särskilt bra för delade repositorys.
+
+Använder samma exempel med fil.txt(lägger till en commit för tydlighetens skull)
+echo "rad 3" >> fil.txt
+git add fil.txt
+git commit -m "Commit 3" 
+
+git revert HEAD
+OUTPUT:
+cat fil.txt kommer bara att visa två rader (1 och 2)
+git log --oneline visar att Commit 3 finns kvar i historiken men kommer också visa på en ny commit typ: d8a4173 (HEAD -> master) Revert "Commit 3".
+Commit 3 är inte raderad men ändringarna har inverterats och blivit en ny commit.

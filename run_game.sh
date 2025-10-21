@@ -13,3 +13,5 @@ echo "running..."
 java GuessingGame
 echo "Done!"
 find . -name "*.class" -type f -exec rm -f {} \;
+echo "Removing class files..."
+ls

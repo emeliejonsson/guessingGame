@@ -14,6 +14,7 @@ Git log används för att kontrollera ändringar då visar vad som har hänt i b
 VAD ÄR EN GIT BRANCH OCH VARFÖR ÄR DE VIKTIGA?
 Git branches är separata grenar av ett projekt. Med branches kan du arbeta med mindre delar av ett program utan att påverka och riskera att störa main-branchen där ens huvudsakliga kod finns. Branches är även viktiga för samarbete, då flera personer kan arbeta med olika delar på olika branches samtidigt. Detta påverkar även säkerheten, ifall det uppstår ett fel i en branch så påverkas inte andra branches eller main-branchen av det.
 
+SÄTT ATT RULLA TILLABAKA KODEN
 RESTORE, RESET OCH REVERT
 GIT RESTORE
 Används för att ta bort ändringar utan att ändra commit-historiken. Påverkar endast working directory, dvs dina lokala filer. Bra användningsområde är för att återställa filer till senaste versionen.

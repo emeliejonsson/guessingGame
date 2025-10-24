@@ -12,6 +12,6 @@ javac *.java
 echo "running..."
 java GuessingGame
 echo "Done!"
-find . -name "*.class" -type f -exec rm -f {} \;
+rm -f *.class
 echo "Removing class files..."
 ls
